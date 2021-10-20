@@ -3,30 +3,32 @@ import numpy as np
 import random
 def getCountours(img):
     contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    i =1
     for cnt in contours:
         area = cv2.contourArea(cnt)
-    if area >1000:
-        cv2.drawContours(imgContours, contours, -1 ,(255,0,0),3,cv2.LINE_AA,hierarchy)
-        peri = cv2.arcLength(cnt,True) #периметр
-        approx = cv2.approxPolyDP(cnt, 0.02*peri,True)
-        corner_count = len(approx)
-        x,y,w,h = cv2.boundingRect(approx)
-        if corner_count == 3:
-            object_type = "Tri"
-            print("Tri")
-        elif corner_count == 4:
-            ratio = w/float(h)
-            if 0.98<ratio<1.03:
-                object_type = "Square"
-            else:
-                object_type = "Rect"
-        elif corner_count > 4:object_type = "Circle"
-        else: object_type = "None"
 
-        object_type = "None"
-        cv2.putText(imgContours, object_type, (x+20,y+30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5,(), 2
-                    )
+        if area >1000:
+            cv2.drawContours(imgContours, contours, -1 ,(255,0,0),3,cv2.LINE_AA,hierarchy)
+            peri = cv2.arcLength(cnt,True) #периметр
+            approx = cv2.approxPolyDP(cnt, 0.02*peri,True)
+            corner_count = len(approx)
+            x,y,w,h = cv2.boundingRect(approx)
+            i += 1
+            if corner_count == 3:
+                object_type = "Tri"
+
+            elif corner_count == 4:
+                ratio = w/float(h)
+                if 0.98<ratio<1.03:
+                    object_type = "Square"
+                else:
+                    object_type = "Rect"
+            elif corner_count > 4:object_type = "Circle"
+            else: object_type = "None"
+
+            cv2.putText(imgContours, object_type, (x+20,y+30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5,(), 2
+                        )
 
 def thresh_callback(val):
     imgCanny = cv2.Canny(imgBlur,val, val)
