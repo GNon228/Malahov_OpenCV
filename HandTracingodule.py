@@ -44,11 +44,11 @@ class handDetector():
         if hand_Landmarks:
             myHand = hand_Landmarks[handNo]
             for id, lm in enumerate(myHand.landmark):
-                 #print(id, lm)
+                 #
                 h, w, _ = img.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 lmList.append([id, cx, cy])
-                print(id,cx,cy)
+                # print(id,cx,cy)
                 if draw:
                     cv2.putText(img,str(id),(cx,cy),cv2.FONT_HERSHEY_PLAIN,2,(100,0,100),2)
                  #print(id,(cx,cy),5,(0,0,255),cv2.FILLED)
